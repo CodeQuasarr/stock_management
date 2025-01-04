@@ -4,23 +4,23 @@ import { computed, ref, onMounted, onBeforeUnmount } from "vue";
 const notifications = [
     {
         id: 1,
-        title: 'New Game Scheduled',
-        message: 'Game vs. Rockets scheduled for next week',
-        time: '2 hours ago',
+        title: 'Problème de stock',
+        message: 'Le paracétamol est en rupture de stock',
+        time: '2 heures',
         unread: true
     },
     {
         id: 2,
-        title: 'Player Status Update',
-        message: 'Michael Johnson is now available for next game',
-        time: '5 hours ago',
+        title: 'Problème de stock',
+        message: 'Le paracétamol est en rupture de stock',
+        time: '2 heures',
         unread: true
     },
     {
         id: 3,
-        title: 'Training Session Update',
-        message: 'Tomorrow\'s training session moved to 9 AM',
-        time: '1 day ago',
+        title: 'Problème de stock',
+        message: 'Le paracétamol est en rupture de stock',
+        time: '2 heures',
         unread: false
     }
 ];
@@ -68,15 +68,15 @@ onBeforeUnmount(() => {
                      :class="['px-4 py-3 hover:bg-gray-50', notification.unread ? 'bg-indigo-50' : '']"
                 >
                     <div class="flex justify-between items-start">
-                        <h4 class="text-sm font-medium text-gray-900">{notification.title}</h4>
-                        <span class="text-xs text-gray-500">{notification.time}</span>
+                        <h4 class="text-sm font-medium text-gray-900">{{ notification.title }}</h4>
+                        <span class="text-xs text-gray-500">{{ notification.time }}</span>
                     </div>
-                    <p class="text-sm text-gray-600 mt-1">{notification.message}</p>
+                    <p class="text-sm text-gray-600 mt-1">{{ notification.message }}</p>
                 </div>
             </div>
             <div class="px-4 py-2 border-t border-gray-200">
                 <button class="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
-                    View all notifications
+                    Voir toutes les notifications
                 </button>
             </div>
         </div>

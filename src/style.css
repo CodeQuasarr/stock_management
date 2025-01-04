@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Add your custom styles here */
+/* Example: */
+.bg-blue-500 {
+    background-color: #4299e1;
+}
+
+.bg-orange-500 {
+    background-color: #f6993f;
+}
+
+.bg-orange-600 {
+    background-color: #f97316;
+}
+
+.text-orange-500 {
+    color: #f6993f;
+}
+
+.text-orange-600 {
+    color: #f97316;
+}

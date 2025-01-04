@@ -10,7 +10,7 @@ const setIsOpen = (value: boolean) => {
 
 const user = {
     name: 'John Smith',
-    role: 'Head Coach',
+    role: 'Pharmacien(ne)',
     avatar: 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&q=80&w=32&h=32'
 };
 
@@ -64,7 +64,7 @@ onBeforeUnmount(() => {
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     </svg>
 
-                    Settings
+                    Paramettre
                 </button>
             </div>
 
@@ -73,7 +73,7 @@ onBeforeUnmount(() => {
                     <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-3" >
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                     </svg>
-                    Sign out
+                    Se Déconnecter
                 </button>
             </div>
         </div>

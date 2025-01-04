@@ -6,4 +6,4 @@ export const router = createRouter({
     routes: [
         { path: '/', name: 'dashboard', component: Dashboard }
     ]
-})
+});
