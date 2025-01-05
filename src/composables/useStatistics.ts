@@ -7,6 +7,7 @@ export function useStatistics() {
 
     const statistics = ref({});
     const stockSelection = ref([]);
+    const stockEvolution = ref([]);
     const loading = ref(false);
     const error = ref(null);
 
@@ -16,6 +17,7 @@ export function useStatistics() {
             await store.loadStatistics();
             statistics.value = store.kpis;
             stockSelection.value = store.stockSelection;
+            stockEvolution.value = store.stockEvolution;
         } catch (err) {
             error.value = err.message;
         } finally {
@@ -23,5 +25,5 @@ export function useStatistics() {
         }
     });
 
-    return { statistics, stockSelection, loading, error };
+    return { statistics, stockSelection, stockEvolution, loading, error };
 }

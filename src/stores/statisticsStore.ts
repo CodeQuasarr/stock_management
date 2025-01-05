@@ -5,6 +5,7 @@ export const usestatisticsStore = defineStore('statistics', {
     state: () => ({
         kpis: {},
         stockSelection: [],
+        stockEvolution: [],
         loading: false,
         error: null,
     }),
@@ -16,6 +17,7 @@ export const usestatisticsStore = defineStore('statistics', {
                 const response = await fetchStatistics();
                 this.$state.kpis = response.data.kpis;
                 this.$state.stockSelection = response.data.stockSelection;
+                this.$state.stockEvolution = response.data.stockEvolution;
             } catch (error) {
                 this.$state.error = error.message;
             } finally {
