@@ -10,11 +10,11 @@ export const usestatisticsStore = defineStore('statistics', {
         error: null,
     }),
     actions: {
-        async loadStatistics() {
+        async loadStatistics(productId = null) {
             this.$state.loading = true;
             this.$state.error = null;
             try {
-                const response = await fetchStatistics();
+                const response = await fetchStatistics(productId);
                 this.$state.kpis = response.data.kpis;
                 this.$state.stockSelection = response.data.stockSelection;
                 this.$state.stockEvolution = response.data.stockEvolution;

@@ -11,6 +11,21 @@ export function useStatistics() {
     const loading = ref(false);
     const error = ref(null);
 
+    const otherStatistics = async (productId: number) => {
+        loading.value = true;
+        try {
+            console.log('otherStatistics', productId);
+            await store.loadStatistics(productId);
+            statistics.value = store.kpis;
+            stockSelection.value = store.stockSelection;
+            stockEvolution.value = store.stockEvolution;
+        } catch (err) {
+            error.value = err.message;
+        } finally {
+            loading.value = false;
+        }
+    }
+
     onMounted(async () => {
         loading.value = true;
         try {
@@ -25,5 +40,5 @@ export function useStatistics() {
         }
     });
 
-    return { statistics, stockSelection, stockEvolution, loading, error };
+    return { statistics, stockSelection, stockEvolution, otherStatistics, loading, error };
 }

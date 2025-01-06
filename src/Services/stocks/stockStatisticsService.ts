@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const fetchStatistics = async () => {
+export const fetchStatistics = async (productId = null) => {
+    const params = productId ? {product_id: productId} : {};
     return await axios.get(`${import.meta.env.VITE_API_URL}/stocks/statistics`, {
-        headers: {
-            Accept: 'application/json',
-        }
-    })
+        params,
+        headers: {Accept: 'application/json'}
+    });
 };
