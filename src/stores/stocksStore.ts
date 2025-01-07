@@ -14,7 +14,7 @@ export const useStocksStore = defineStore('stocks', {
             this.$state.error = null;
             try {
                 const response = await fetchStockMovement(productId);
-                this.$state.stock_movements = response.data.stock_movements;
+                this.$state.stock_movements = response.data.stock_movements ?? [];
             } catch (error) {
                 this.$state.error = error.message;
             } finally {
