@@ -5,7 +5,7 @@ import MockAdapter from 'axios-mock-adapter';
 import type {Kpi, ListProductSelection, StockEvolution} from '../../types';
 import {useStatisticsStore} from "../statisticsStore.ts";
 
-describe('useStatisticsStore - Tests approfondis', () => {
+describe('useStatisticsStore', () => {
     let mockAxios: MockAdapter;
     let store: ReturnType<typeof useStatisticsStore>;
 
