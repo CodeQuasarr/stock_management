@@ -34,13 +34,6 @@ const cards = computed(() => [
         color: 'gray'
     },
     {
-        title: 'Débit mensuel',
-        value: props.data.monthly_flow_rate,
-        change: props.data.change_monthly_flow_rate,
-        icon: ArrowTrendingUpIcon,
-        color: 'green'
-    },
-    {
         title: 'Articles invendus',
         value: props.data.unsold_items,
         suffix: 'x',
@@ -52,7 +45,7 @@ const cards = computed(() => [
 </script>
 
 <template>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div
             v-for="card in cards"
             :key="card.title"

@@ -10,7 +10,6 @@ const emit = defineEmits(["update:modelValue"]);
 
 const toggleSidebar = () => {
     modelValue.value = !modelValue.value;
-    console.log(modelValue.value);
     emit("update:modelValue", modelValue.value);
 };
 </script>

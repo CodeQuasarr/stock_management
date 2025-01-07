@@ -4,20 +4,24 @@ import {ref} from "vue";
 import AuthTemplate from "../layouts/AuthTemplate.vue";
 import KPICards from "../components/KPICards.vue";
 import {useStatistics} from "../composables/useStatistics.ts";
-import {Doughnut as DoughnutChart, Line as LineChart} from 'vue-chartjs'
+import {Line as LineChart} from 'vue-chartjs'
 import {defaultChartOptions} from "../utils/chartConfig.ts";
+import {compareDates, expiredDate} from "../utils/DateManagement.ts";
 
 
-const {statistics, stockSelection, stockEvolution, otherStatistics, loading, error} = useStatistics()
+const {
+    statistics,
+    stockSelection,
+    stockEvolution,
+    stocksMovement,
+    loading: statisticsLoading,
+    error: statisticsError,
+    otherStatistics,
+} = useStatistics()
 
 const productSelected = ref('all')
-const doughnutChartData = {
-    labels: ['Electronics', 'Clothing', 'Food', 'Others'],
-    datasets: [{
-        data: [30, 25, 15, 30],
-        backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#6B7280']
-    }]
-}
+
+
 
 </script>
 
@@ -33,12 +37,15 @@ const doughnutChartData = {
                 <div class="mt-4 lg:mt-0 flex items-center space-x-4">
                     <select
                         v-model="productSelected"
-                        @change="otherStatistics(productSelected)"
                         class="bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        @change="otherStatistics(productSelected)"
                     >
+                        <option value="all">
+                            {{ stockSelection[0]?.label }}
+                        </option>
                         <option
                             v-for="stock in stockSelection"
-                            :key="'stock_select_' + stock.id"
+                            :key="'stock_select_' + stock.value"
                             :value="stock.value"
                         >
                             {{ stock.label }}
@@ -58,7 +65,7 @@ const doughnutChartData = {
                 :data="statistics"
             />
             <!-- Charts Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                     <h2 class="text-lg font-semibold mb-4">Évolution des stocks</h2>
                     <div class="h-[300px]">
@@ -70,13 +77,48 @@ const doughnutChartData = {
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h2 class="text-lg font-semibold mb-4">Articles invendus par catégorie</h2>
-                    <div class="h-[300px]">
-                        <DoughnutChart
-                            :data="doughnutChartData"
-                            :options="defaultChartOptions"
-                        />
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6 border-b border-gray-100">
+                        <h2 class="text-lg font-semibold">Mouvement du stock</h2>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Produit
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Code
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Status
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tr v-for="(stock_movement, index) in stocksMovement" :key="'stock_movement_' + stock_movement.product.unique_code + '_index_' + index">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ stock_movement.product.name }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ stock_movement.product.unique_code }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {{ stock_movement.reason }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span :class="compareDates(new Date(stock_movement.expiration_date), new Date()) ? 'text-red-500' : 'text-green-500'">
+                                        {{ expiredDate(stock_movement.expiration_date) }}
+                                    </span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

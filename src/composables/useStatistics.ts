@@ -1,24 +1,28 @@
 import { ref, onMounted } from 'vue';
-import {usestatisticsStore} from "../stores/statisticsStore.ts";
+import {useStatisticsStore} from "../stores/statisticsStore.ts";
+import {useStocksStore} from "../stores/stocksStore.ts";
+import type {Kpi, ListProductSelection, StockEvolution, StockMovement} from "../types";
 
 export function useStatistics() {
-    const store = usestatisticsStore()
+    const statStore = useStatisticsStore();
+    const stockStore = useStocksStore();
 
+    const statistics = ref<Kpi>({});
+    const stockSelection = ref<ListProductSelection>([]);
+    const stocksMovement = ref<StockMovement>([]);
+    const stockEvolution = ref<StockEvolution>([]);
+    const loading = ref<boolean>(false);
+    const error = ref<any>(null);
 
-    const statistics = ref({});
-    const stockSelection = ref([]);
-    const stockEvolution = ref([]);
-    const loading = ref(false);
-    const error = ref(null);
-
-    const otherStatistics = async (productId: number) => {
+    /**
+     * Get statistics and stock movement for a specific product
+     * @param unique_code
+     */
+    const otherStatistics = async (unique_code: string) => {
         loading.value = true;
         try {
-            console.log('otherStatistics', productId);
-            await store.loadStatistics(productId);
-            statistics.value = store.kpis;
-            stockSelection.value = store.stockSelection;
-            stockEvolution.value = store.stockEvolution;
+            await getStatistics(unique_code);
+            await getStockMovement(unique_code);
         } catch (err) {
             error.value = err.message;
         } finally {
@@ -26,13 +30,31 @@ export function useStatistics() {
         }
     }
 
+    /**
+     * Get statistics for all products
+     * @param unique_code
+     */
+    const getStatistics = async (unique_code: string = null) => {
+        await statStore.loadStatistics(unique_code);
+        statistics.value = statStore.kpis;
+        stockSelection.value = statStore.stockSelection;
+        stockEvolution.value = statStore.stockEvolution;
+    }
+
+    /**
+     * Get stock movement for a specific product
+     * @param unique_code
+     */
+    const getStockMovement = async (unique_code: string = null) => {
+        await stockStore.loadProductMovements(unique_code ?? stockSelection.value[0].value);
+        stocksMovement.value = stockStore.stock_movements;
+    }
+
     onMounted(async () => {
         loading.value = true;
         try {
-            await store.loadStatistics();
-            statistics.value = store.kpis;
-            stockSelection.value = store.stockSelection;
-            stockEvolution.value = store.stockEvolution;
+            await getStatistics();
+            await getStockMovement();
         } catch (err) {
             error.value = err.message;
         } finally {
@@ -40,5 +62,13 @@ export function useStatistics() {
         }
     });
 
-    return { statistics, stockSelection, stockEvolution, otherStatistics, loading, error };
+    return {
+        statistics,
+        stockSelection,
+        stockEvolution,
+        stocksMovement,
+        loading,
+        error,
+        otherStatistics,
+    };
 }
