@@ -20,9 +20,9 @@ export const useStatisticsStore = defineStore('statistics', {
             this.$state.error = null;
             try {
                 const response = await fetchStatistics(unique_code)
-                this.$state.kpis = response.data.kpis;
-                this.$state.stockSelection = response.data.stockSelection;
-                this.$state.stockEvolution = response.data.stockEvolution;
+                this.$state.kpis = response.data.kpis ?? {} as Kpi;
+                this.$state.stockSelection = response.data.stockSelection ?? [] as ListProductSelection[];
+                this.$state.stockEvolution = response.data.stockEvolution ?? [] as StockEvolution[];
             } catch (error) {
                 this.$state.error = error.message;
             } finally {
