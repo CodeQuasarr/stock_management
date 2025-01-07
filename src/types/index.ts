@@ -58,7 +58,7 @@ export interface StockMovement {
         name: string
         unique_code: string
     },
-    type: 'IN' | 'OUT'
+    type: 'in' | 'out'
     reason: string
     expiration_date: string
     quantity: number

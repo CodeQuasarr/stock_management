@@ -30,10 +30,29 @@ describe('useStocksStore', () => {
 
         const uniqueCode = '123';
         const mockStockMovements: StockMovement[] = [
-            { id: 1, unique_code: '123', quantity: 10, movement_type: 'in', date: '2023-10-01' },
-            { id: 2, unique_code: '123', quantity: 5, movement_type: 'out', date: '2023-10-02' },
+            {
+                product : {
+                    id: '1',
+                    name: '123',
+                    unique_code: '123'
+                },
+                type: 'in',
+                reason: 'Stock entrepôt',
+                expiration_date: '2023-10-01',
+                quantity: 10
+            },
+            {
+                product : {
+                    id: '2',
+                    name: '123',
+                    unique_code: '123'
+                },
+                type: 'out',
+                reason: 'Vente',
+                expiration_date: '2023-10-02',
+                quantity: 5
+            }
         ];
-
         // Mock de la réponse de l'API
         mockAxios.onGet(`${import.meta.env.VITE_API_URL}/stocks/${uniqueCode}/mouvements`).reply(200, {
             stock_movements: mockStockMovements,
@@ -48,7 +67,17 @@ describe('useStocksStore', () => {
 
     it('Devrait gérer les cas où uniqueCode est null ou undefined', async () => {
         const mockStockMovements: StockMovement[] = [
-            { id: 1, unique_code: null, quantity: 10, movement_type: 'in', date: '2023-10-01' },
+            {
+                product : {
+                    id: '1',
+                    name: '123',
+                    unique_code: '123'
+                },
+                type: 'in',
+                reason: 'Stock entrepôt',
+                expiration_date: '2023-10-01',
+                quantity: 10
+            },
         ];
 
         // Mock de la réponse de l'API pour un uniqueCode null
@@ -86,7 +115,17 @@ describe('useStocksStore', () => {
         store.error = 'Erreur précédente'; // Simuler une erreur précédente
 
         const mockStockMovements: StockMovement[] = [
-            { id: 1, unique_code: '123', quantity: 10, movement_type: 'in', date: '2023-10-01' },
+            {
+                product : {
+                    id: '1',
+                    name: '123',
+                    unique_code: '123'
+                },
+                type: 'in',
+                reason: 'Stock entrepôt',
+                expiration_date: '2023-10-01',
+                quantity: 10
+            },
         ];
 
         // Mock de la réponse de l'API
@@ -120,7 +159,17 @@ describe('useStocksStore', () => {
         // Arrange
         const uniqueCode = '123';
         const mockStockMovements: StockMovement[] = [
-            { id: 1, unique_code: '123', quantity: 10, movement_type: 'in', date: '2023-10-01' },
+            {
+                product : {
+                    id: '1',
+                    name: '123',
+                    unique_code: '123'
+                },
+                type: 'in',
+                reason: 'Stock entrepôt',
+                expiration_date: '2023-10-01',
+                quantity: 10
+            },
         ];
 
         // Mock de la première requête avec un délai

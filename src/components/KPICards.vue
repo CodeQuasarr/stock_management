@@ -1,18 +1,10 @@
 <script lang="ts" setup>
 import {computed} from 'vue'
-import {ArrowPathIcon, ArrowTrendingUpIcon, CurrencyEuroIcon, ExclamationTriangleIcon} from '@heroicons/vue/24/outline'
+import {ArrowPathIcon, CurrencyEuroIcon, ExclamationTriangleIcon} from '@heroicons/vue/24/outline'
+import type {Kpi} from "../types";
 
 const props = defineProps<{
-    data: {
-        stock_value: number
-        change_stock_value: number
-        stock_rotation: number
-        change_stock_rotation: number
-        monthly_flow_rate: number
-        change_monthly_flow_rate: number
-        unsold_items: number
-        change_unsold_items: number
-    }
+    data: Kpi
 }>()
 
 const cards = computed(() => [

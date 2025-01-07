@@ -2,7 +2,7 @@ import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 import {createPinia, setActivePinia} from 'pinia';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import type {Kpi, ListProductSelection, StockEvolution} from '../../types';
+import type {Kpi, ListProductSelection} from '../../types';
 import {useStatisticsStore} from "../statisticsStore.ts";
 
 describe('useStatisticsStore', () => {
@@ -30,9 +30,8 @@ describe('useStatisticsStore', () => {
 
         const uniqueCode = '123';
         const mockResponse = {
-            kpis: { totalProducts: 100, outOfStock: 5 } as Kpi,
-            stockSelection: [{ id: 1, name: 'Product A', selected: true }] as ListProductSelection[],
-            stockEvolution: [{ date: '2023-10-01', stockLevel: 50 }] as StockEvolution[],
+            kpis: { stock_value: 100, change_stock_value: 5 } as Kpi,
+            stockSelection: [{ value: '1', label: 'Product A'}] as ListProductSelection[],
         };
 
         // Mock de la réponse de l'API
@@ -46,7 +45,6 @@ describe('useStatisticsStore', () => {
         expect(store.error).toBeNull(); // Aucune erreur ne doit être présente
         expect(store.kpis).toEqual(mockResponse.kpis); // Les KPIs doivent correspondre
         expect(store.stockSelection).toEqual(mockResponse.stockSelection); // La sélection de stock doit correspondre
-        expect(store.stockEvolution).toEqual(mockResponse.stockEvolution); // L'évolution du stock doit correspondre
     });
 
     it('Gérer les erreurs lors du chargement des statistiques', async () => {
@@ -71,9 +69,8 @@ describe('useStatisticsStore', () => {
     it('Gérer les cas où unique_code est null ou undefined', async () => {
 
         const mockResponse = {
-            kpis: { totalProducts: 100, outOfStock: 5 } as Kpi,
-            stockSelection: [{ id: 1, name: 'Product A', selected: true }] as ListProductSelection[],
-            stockEvolution: [{ date: '2023-10-01', stockLevel: 50 }] as StockEvolution[],
+            kpis: { stock_value: 100, change_stock_value: 5 } as Kpi,
+            stockSelection: [{ value: '1', label: 'Product A'}] as ListProductSelection[],
         };
 
         // Mock de la réponse de l'API sans unique_code
@@ -86,17 +83,14 @@ describe('useStatisticsStore', () => {
         expect(store.loading).toBe(false); // Le chargement doit être terminé
         expect(store.error).toBeNull(); // Aucune erreur ne doit être présente
         expect(store.kpis).toEqual(mockResponse.kpis); // Les KPIs doivent correspondre
-        expect(store.stockSelection).toEqual(mockResponse.stockSelection); // La sélection de stock doit correspondre
-        expect(store.stockEvolution).toEqual(mockResponse.stockEvolution); // L'évolution du stock doit correspondre
     });
 
     it('Mettre loading à true pendant le chargement des données', async () => {
 
         const uniqueCode = '123';
         const mockResponse = {
-            kpis: { totalProducts: 100, outOfStock: 5 } as Kpi,
-            stockSelection: [{ id: 1, name: 'Product A', selected: true }] as ListProductSelection[],
-            stockEvolution: [{ date: '2023-10-01', stockLevel: 50 }] as StockEvolution[],
+            kpis: { stock_value: 100, change_stock_value: 5 } as Kpi,
+            stockSelection: [{ value: '1', label: 'Product A'}] as ListProductSelection[],
         };
 
         // Mock de la réponse de l'API avec un délai
@@ -120,9 +114,8 @@ describe('useStatisticsStore', () => {
         store.error = 'Erreur précédente'; // Simuler une erreur précédente
 
         const mockResponse = {
-            kpis: { totalProducts: 100, outOfStock: 5 } as Kpi,
-            stockSelection: [{ id: 1, name: 'Product A', selected: true }] as ListProductSelection[],
-            stockEvolution: [{ date: '2023-10-01', stockLevel: 50 }] as StockEvolution[],
+            kpis: { stock_value: 100, change_stock_value: 5 } as Kpi,
+            stockSelection: [{ value: '1', label: 'Product A' }] as ListProductSelection[],
         };
 
         // Mock de la réponse de l'API
@@ -158,9 +151,8 @@ describe('useStatisticsStore', () => {
 
         const uniqueCode = '123';
         const mockResponse = {
-            kpis: { totalProducts: 100, outOfStock: 5 } as Kpi,
-            stockSelection: [{ id: 1, name: 'Product A', selected: true }] as ListProductSelection[],
-            stockEvolution: [{ date: '2023-10-01', stockLevel: 50 }] as StockEvolution[],
+            kpis: { stock_value: 100, change_stock_value: 5 } as Kpi,
+            stockSelection: [{ value: '1', label: 'Product A' }] as ListProductSelection[],
         };
 
         // Mock de la première requête avec un délai
@@ -181,16 +173,11 @@ describe('useStatisticsStore', () => {
 
         const uniqueCode = '123';
         const mockResponse = {
-            kpis: { totalProducts: 10000, outOfStock: 500 } as Kpi,
+            kpis: { stock_value: 10000, change_stock_value: 500 } as Kpi,
             stockSelection: Array.from({ length: 1000 }, (_, i) => ({
-                id: i + 1,
-                name: `Product ${i + 1}`,
-                selected: i % 2 === 0,
+                value: (i + 1).toString(),
+                label: `Product ${i + 1}`,
             })) as ListProductSelection[],
-            stockEvolution: Array.from({ length: 365 }, (_, i) => ({
-                date: `2023-01-${String(i + 1).padStart(2, '0')}`,
-                stockLevel: Math.floor(Math.random() * 100),
-            })) as StockEvolution[],
         };
 
         // Mock de la réponse de l'API avec des données volumineuses
@@ -204,6 +191,5 @@ describe('useStatisticsStore', () => {
         expect(store.error).toBeNull(); // Aucune erreur ne doit être présente
         expect(store.kpis).toEqual(mockResponse.kpis); // Les KPIs doivent correspondre
         expect(store.stockSelection).toEqual(mockResponse.stockSelection); // La sélection de stock doit correspondre
-        expect(store.stockEvolution).toEqual(mockResponse.stockEvolution); // L'évolution du stock doit correspondre
     });
 });

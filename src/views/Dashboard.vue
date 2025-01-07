@@ -14,13 +14,23 @@ const {
     stockSelection,
     stockEvolution,
     stocksMovement,
-    loading: statisticsLoading,
-    error: statisticsError,
     otherStatistics,
 } = useStatistics()
 
 const productSelected = ref('all')
 
+// const stockEvolution = ref({
+//     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+//     datasets: [
+//         {
+//             label: 'Stock Movement',
+//             data: [10, 20, 30, 40, 50],
+//             backgroundColor: 'rgba(54, 162, 235, 0.2)',
+//             borderColor: 'rgba(54, 162, 235, 1)',
+//             borderWidth: 1,
+//         }
+//     ]
+// });
 
 
 </script>
@@ -65,6 +75,9 @@ const productSelected = ref('all')
                 :data="statistics"
             />
             <!-- Charts Grid -->
+            <pre>
+                {{ stockEvolution }}
+            </pre>
             <div class="grid grid-cols-1 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                     <h2 class="text-lg font-semibold mb-4">Évolution des stocks</h2>

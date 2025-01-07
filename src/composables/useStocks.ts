@@ -1,10 +1,11 @@
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import {useStocksStore} from "../stores/stocksStore.ts";
+import type {StockMovement} from "../types";
 
 export function useStocks() {
 
     const stockStore = useStocksStore();
-    const stocksMovement = ref([]);
+    const stockMovements = ref<StockMovement[]>([]);
     const loading = ref(false);
     const error = ref(null);
 
@@ -13,8 +14,8 @@ export function useStocks() {
         try {
             await stockStore.loadProductMovements(unique_code);
 
-            stockMovement.value = stockStore.stock_movements;
-        } catch (err) {
+            stockMovements.value = stockStore.stock_movements;
+        } catch (err: any) {
             error.value = err.message;
         } finally {
             loading.value = false;
@@ -22,7 +23,7 @@ export function useStocks() {
     }
 
     return {
-        stockMovement,
+        stockMovements,
         loading,
         error,
         getProductMovements

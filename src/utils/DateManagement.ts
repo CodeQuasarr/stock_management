@@ -36,7 +36,7 @@ const getDifferenceBetweenDates = (date1: Date, date2: Date) => {
  * @param date1
  * @param date2
  */
-const compareDates = (date1, date2): boolean => {
+const compareDates = (date1: Date, date2: Date): boolean => {
     return date1 < date2
 }
 

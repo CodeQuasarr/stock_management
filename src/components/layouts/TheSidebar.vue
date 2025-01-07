@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {defineEmits, computed} from "vue";
+import {useRoute} from "vue-router";
 
 const props = defineProps<{
     isOpen: Boolean;
@@ -14,6 +15,8 @@ const sidebarClasses = computed(() => `
   ${props.isOpen ? 'translate-x-0' : '-translate-x-full'}
   lg:translate-x-0
 `);
+
+const route = useRoute()
 </script>
 
 <template>
@@ -49,7 +52,7 @@ const sidebarClasses = computed(() => `
                         :to="item.to"
                         class="w-full flex items-center space-x-3 p-3 rounded-lg transition-colors"
                         :class="[
-                              $route.path === item.to
+                              route.path === item.to
                                 ? 'bg-indigo-50 text-indigo-600'
                                 : 'text-gray-700 hover:bg-indigo-50 hover:text-indigo-600'
                         ]"

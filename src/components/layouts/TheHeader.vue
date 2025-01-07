@@ -1,17 +1,11 @@
 <script setup lang="ts">
 
-import { defineEmits, ref } from "vue";
+import { defineEmits } from "vue";
 import NotificationsDropdown from "./NotificationsDropdown.vue";
 import UserDropdown from "./UserDropdown.vue";
 
-const modelValue = ref(false);
-
 const emit = defineEmits(["update:modelValue"]);
 
-const toggleSidebar = () => {
-    modelValue.value = !modelValue.value;
-    emit("update:modelValue", modelValue.value);
-};
 </script>
 
 <template>

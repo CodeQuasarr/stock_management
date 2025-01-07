@@ -6,16 +6,16 @@ export const useStocksStore = defineStore('stocks', {
     state: () => ({
         stock_movements: [] as StockMovement[],
         loading: false as boolean,
-        error: null,
+        error: null as string|null,
     }),
     actions: {
-        async loadProductMovements(productId = null) {
+        async loadProductMovements(unique_code: string|null = null) {
             this.$state.loading = true;
             this.$state.error = null;
             try {
-                const response = await fetchStockMovement(productId);
+                const response = await fetchStockMovement(unique_code);
                 this.$state.stock_movements = response.data.stock_movements ?? [];
-            } catch (error) {
+            } catch (error: any) {
                 this.$state.error = error.message;
             } finally {
                 this.$state.loading = false;
