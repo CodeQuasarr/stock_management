@@ -1,34 +1,14 @@
 export interface Product {
-    id: string
+    id?: number
     name: string
-    category: string
-    supplier: string
-    quantity: number
-    minQuantity: number
-    price: number
-    leadTime: number // délai de livraison en jours
-}
-
-export interface StockAlert {
-    id: string
-    productId: string
-    message: string
-    createdAt: Date
-}
-
-export interface SalesData {
-    date: Date
-    productId: string
-    quantity: number
-    revenue: number
-}
-
-export interface StockPrediction {
-    productId: string
-    predictedDemand: number
-    suggestedOrder: number
-    optimalOrderDate: Date
-    confidence: number
+    unique_code: string
+    therapeutic_category: string
+    description: string
+    purchase_price?: number
+    sale_price: number
+    manufacturer: string
+    stock_quantity: number
+    expiration_date?: string
 }
 
 export interface Kpi {

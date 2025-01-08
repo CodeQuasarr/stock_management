@@ -1,7 +1,8 @@
+@import '/node_modules/flowbite-vue/dist/index.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* Add your custom styles here */
 /* Example: */
 .bg-blue-500 {
