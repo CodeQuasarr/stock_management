@@ -8,18 +8,6 @@ export function useProductForm(productId?: string) {
     const errors = ref<Record<string, string>>({})
     const success = ref<string|null>(null)
 
-    // const initialData = {
-    //     name: 'Loratadine 10 mg',
-    //     unique_code: 'LRDC10',
-    //     description: 'Allergie et rhume des foins',
-    //     purchase_price: 0.80,
-    //     sale_price: 1.50,
-    //     stock_quantity: 250,
-    //     expiration_date: '',
-    //     therapeutic_category: 'Allergies',
-    //     manufacturer: 'BioPharm'
-    // } as Product
-
     const router = useRouter()
     const loading = ref<boolean>(false);
     const product = ref<Product>({
@@ -72,8 +60,7 @@ export function useProductForm(productId?: string) {
             } else {
                 await stockStore.addProduct(product.value as Product)
                 if (stockStore.product_id) {
-                    await router.push('/products/' + stockStore.product_id)
-                    return;
+                    window.location.href = `/products/${stockStore.product_id}`
                 }
                 errors.value.message = stockStore.error ?? ''
             }

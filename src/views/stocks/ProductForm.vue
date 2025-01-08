@@ -40,7 +40,7 @@ const {product, errors, success, save} = useProductForm(productId)
                         />
 
                         <BaseInput
-                            v-if="product.expiration_date"
+                            v-if="!productId"
                             v-model="product.expiration_date"
                             :error="errors.expiration_date"
                             label="Date d'expiration"
@@ -71,7 +71,7 @@ const {product, errors, success, save} = useProductForm(productId)
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <BaseInput
-                            v-if="product.purchase_price"
+                            v-if="!productId"
                             v-model="product.purchase_price"
                             :error="errors.purchase_price"
                             label="Prix d'achat"
