@@ -27,7 +27,7 @@ export const useStocksStore = defineStore('stocks', {
                 const response = await fetchProducts();
                 this.$state.products = response.data.data ?? [];
             } catch (error: any) {
-                this.$state.error = error.message;
+                this.$state.error = error.response.data.message;
             } finally {
                 this.$state.loading = false;
             }
@@ -40,7 +40,7 @@ export const useStocksStore = defineStore('stocks', {
                 const response = await fetchProduct(product_id);
                 this.$state.product = response.data.data ?? {};
             } catch (error: any) {
-                this.$state.error = error.message;
+                this.$state.error = error.response.data.message;
             } finally {
                 this.$state.loading = false;
             }
@@ -53,7 +53,7 @@ export const useStocksStore = defineStore('stocks', {
                 const response = await updateProduct(product_id, product);
                 this.$state.success = response.data.success;
             } catch (error: any) {
-                this.$state.error = error.message;
+                this.$state.error = error.response.data.message;
             } finally {
                 this.$state.loading = false;
             }
@@ -79,7 +79,7 @@ export const useStocksStore = defineStore('stocks', {
                 await deleteProduct(product_id);
                 await this.loadProducts();
             } catch (error: any) {
-                this.$state.error = error.message;
+                this.$state.error = error.response.data.message;
             } finally {
                 this.$state.loading = false;
             }
@@ -92,7 +92,7 @@ export const useStocksStore = defineStore('stocks', {
                 const response = await fetchStockMovement(unique_code);
                 this.$state.stock_movements = response.data.stock_movements ?? [];
             } catch (error: any) {
-                this.$state.error = error.message;
+                this.$state.error = error.response.data.message;
             } finally {
                 this.$state.loading = false;
             }
