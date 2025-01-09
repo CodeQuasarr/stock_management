@@ -90,7 +90,7 @@ export const useStocksStore = defineStore('stocks', {
             this.$state.error = null;
             try {
                 const response = await fetchStockMovement(unique_code);
-                this.$state.stock_movements = response.data.stock_movements ?? [];
+                this.$state.stock_movements = response.data.data ?? [];
             } catch (error: any) {
                 this.$state.error = error.response.data.message;
             } finally {

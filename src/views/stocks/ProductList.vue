@@ -100,7 +100,7 @@ onMounted(() => {
                 <fwb-modal size="md" v-if="isShowModal" @close="closeModal">
                     <template #body>
                         <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                            Êtes-vous sûr de vouloir supprimer cet élément ? {{ currentId}}
+                            Êtes-vous sûr de vouloir supprimer cet élément ?
                         </p>
                     </template>
                     <template #footer>

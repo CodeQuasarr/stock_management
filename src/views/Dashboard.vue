@@ -37,9 +37,6 @@ const productSelected = ref('all')
                         class="bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         @change="otherStatistics(productSelected)"
                     >
-                        <option value="all">
-                            {{ stockSelection[0]?.label }}
-                        </option>
                         <option
                             v-for="stock in stockSelection"
                             :key="'stock_select_' + stock.value"
