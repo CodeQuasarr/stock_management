@@ -49,11 +49,12 @@ const productSelected = ref('all')
                         </option>
                     </select>
 
-                    <button
+                    <RouterLink
+                        to="/products/new"
                         class="flex items-center space-x-2 bg-indigo-600 text-white rounded-lg px-4 py-2 hover:bg-indigo-700">
                         <!--                        <Plus class="h-4 w-4" />-->
-                        <span>Ajouter un produit</span>
-                    </button>
+                        <span>Ajouter un Stock</span>
+                    </RouterLink>
                 </div>
             </div>
 

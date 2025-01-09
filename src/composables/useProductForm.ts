@@ -28,6 +28,9 @@ export function useProductForm(productId?: string) {
             if (!productId) return;
             await stockStore.loadProduct(parseInt(productId, 10));
             product.value = stockStore.product;
+            if (Object.keys(product.value).length === 0) {
+                await router.push({name: 'Error404'});
+            }
         } catch (err: any) {
             errors.value.message = err.message;
         } finally {
