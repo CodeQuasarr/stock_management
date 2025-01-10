@@ -1,8 +1,6 @@
 <script setup lang="ts">
 
 import { defineEmits } from "vue";
-import NotificationsDropdown from "./NotificationsDropdown.vue";
-import UserDropdown from "./UserDropdown.vue";
 
 const emit = defineEmits(["update:modelValue"]);
 

@@ -6,7 +6,7 @@ import {useStocks} from "../../composables/useStocks.ts";
 import {initFlowbite} from "flowbite";
 import { FwbButton, FwbModal } from 'flowbite-vue'
 
-const {products, isShowModal, currentId, deleteProduct, closeModal, showModal} = useStocks()
+const {products, isShowModal, deleteProduct, closeModal, showModal} = useStocks()
 const searchQuery = ref('')
 
 onMounted(() => {

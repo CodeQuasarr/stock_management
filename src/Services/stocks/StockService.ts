@@ -2,7 +2,7 @@ import axios from "axios";
 import type {Product} from "../../types";
 
 export const fetchStockMovement = async (unique_code: string | null = null) => {
-    return await axios.get(`${import.meta.env.VITE_API_URL}/stocks/${unique_code}/mouvements`, {
+    return await axios.get(`${import.meta.env.VITE_API_URL}/stocks/${unique_code}/movements`, {
         headers: {Accept: 'application/json'}
     });
 };

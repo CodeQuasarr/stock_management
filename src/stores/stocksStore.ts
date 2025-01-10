@@ -7,6 +7,7 @@ import {
     fetchStockMovement, updateProduct
 } from "../Services/stocks/StockService.ts";
 import type {Product, StockMovement} from "../types";
+import formatErrors from "../utils/FormatError.ts";
 
 export const useStocksStore = defineStore('stocks', {
     state: () => ({
@@ -53,7 +54,12 @@ export const useStocksStore = defineStore('stocks', {
                 const response = await updateProduct(product_id, product);
                 this.$state.success = response.data.success;
             } catch (error: any) {
-                this.$state.error = error.response.data.message;
+                if (error.response.data.errors) {
+                    console.log(error.response.data.errors);
+                    this.$state.error = formatErrors(error.response.data.errors);
+                } else {
+                    this.$state.error = error.response.data.message;
+                }
             } finally {
                 this.$state.loading = false;
             }
@@ -66,7 +72,11 @@ export const useStocksStore = defineStore('stocks', {
                 const response = await addProduct(product);
                 this.$state.product_id = response.data.data;
             } catch (error: any) {
-                this.$state.error = error.response.data.message;
+                if (error.response.data.errors) {
+                    this.$state.error = formatErrors(error.response.data.errors);
+                } else {
+                    this.$state.error = error.response.data.message;
+                }
             } finally {
                 this.$state.loading = false;
             }
@@ -85,14 +95,14 @@ export const useStocksStore = defineStore('stocks', {
             }
         },
 
-        async loadProductMovements(unique_code: string|null = null) {
+        async loadProductMovements(unique_code: string) {
             this.$state.loading = true;
             this.$state.error = null;
             try {
                 const response = await fetchStockMovement(unique_code);
                 this.$state.stock_movements = response.data.data ?? [];
             } catch (error: any) {
-                this.$state.error = error.response.data.message;
+                this.$state.error = error.response.data?.message ?? error.message;
             } finally {
                 this.$state.loading = false;
             }

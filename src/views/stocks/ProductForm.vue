@@ -19,13 +19,14 @@ const {product, errors, success, save} = useProductForm(productId)
         <div class="space-y-8">
             <div class="flex flex-col md:flex-row lg:items-center md:justify-between mb-8">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">{{ productId ? 'Edit' : 'New' }} Product</h1>
+                    <h1 class="text-2xl font-bold text-gray-900">{{ productId ? 'Modification' : 'Création' }} d'un product</h1>
                     <p class="text-gray-600">Gérez les stocks de manière efficace et organisée</p>
                 </div>
             </div>
             <fwb-toast v-if="errors.message?.trim()" closable type="danger">
-                {{ errors.message }}
+                <div class="text-red-500" v-html="errors.message"></div>
             </fwb-toast>
+
             <fwb-toast v-if="productId && success" closable type="success">
                 Le stock a été modifié avec succès
             </fwb-toast>
@@ -40,7 +41,7 @@ const {product, errors, success, save} = useProductForm(productId)
                         />
 
                         <BaseInput
-                            v-if="!productId"
+                            v-if="!productId && product.expiration_date"
                             v-model="product.expiration_date"
                             :error="errors.expiration_date"
                             label="Date d'expiration"
@@ -71,7 +72,7 @@ const {product, errors, success, save} = useProductForm(productId)
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <BaseInput
-                            v-if="!productId"
+                            v-if="!productId && product.purchase_price"
                             v-model="product.purchase_price"
                             :error="errors.purchase_price"
                             label="Prix d'achat"

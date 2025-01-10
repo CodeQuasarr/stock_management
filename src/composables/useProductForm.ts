@@ -17,7 +17,7 @@ export function useProductForm(productId?: string) {
         purchase_price: 0.80,
         sale_price: 1.50,
         stock_quantity: 250,
-        expiration_date: '',
+        expiration_date: '2025-10-01',
         therapeutic_category: 'Allergies',
         manufacturer: 'BioPharm'
     })
@@ -60,6 +60,7 @@ export function useProductForm(productId?: string) {
                 if (stockStore.success) {
                     success.value = stockStore.success
                 }
+                errors.value.message = stockStore.error ?? ''
             } else {
                 await stockStore.addProduct(product.value as Product)
                 if (stockStore.product_id) {
