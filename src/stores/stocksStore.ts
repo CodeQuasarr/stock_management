@@ -6,11 +6,10 @@ import {
     fetchProducts,
     fetchStockMovement, updateProduct
 } from "../Services/stocks/StockService.ts";
-import type {Product, StockMovement} from "../types";
-import formatErrors from "../utils/FormatError.ts";
+import type {Product, ProductUpdated, StockMovement, StockState} from "../types";
 
 export const useStocksStore = defineStore('stocks', {
-    state: () => ({
+    state: (): StockState => ({
         stock_movements: [] as StockMovement[],
         products: [] as Product[],
         product: {} as Product,
@@ -20,10 +19,8 @@ export const useStocksStore = defineStore('stocks', {
         success: null as string|null,
     }),
     actions: {
-
         async loadProducts() {
-            this.$state.loading = true;
-            this.$state.error = null;
+            this.setLoadingState();
             try {
                 const response = await fetchProducts();
                 this.$state.products = response.data.data ?? [];
@@ -35,8 +32,7 @@ export const useStocksStore = defineStore('stocks', {
         },
 
         async loadProduct(product_id: number) {
-            this.$state.loading = true;
-            this.$state.error = null;
+            this.setLoadingState();
             try {
                 const response = await fetchProduct(product_id);
                 this.$state.product = response.data.data ?? {};
@@ -47,9 +43,8 @@ export const useStocksStore = defineStore('stocks', {
             }
         },
 
-        async updateProduct(product_id: number, product: Product) {
-            this.$state.loading = true;
-            this.$state.error = null;
+        async updateProduct(product_id: number, product: ProductUpdated) {
+            this.setLoadingState();
             try {
                 const response = await updateProduct(product_id, product);
                 this.$state.success = response.data.success;
@@ -66,8 +61,7 @@ export const useStocksStore = defineStore('stocks', {
         },
 
         async addProduct(product: Product) {
-            this.$state.loading = true;
-            this.$state.error = null;
+            this.setLoadingState();
             try {
                 const response = await addProduct(product);
                 this.$state.product_id = response.data.data;
@@ -83,8 +77,7 @@ export const useStocksStore = defineStore('stocks', {
         },
 
         async deleteProduct(product_id: number) {
-            this.$state.loading = true;
-            this.$state.error = null;
+            this.setLoadingState();
             try {
                 await deleteProduct(product_id);
                 await this.loadProducts();
@@ -95,9 +88,8 @@ export const useStocksStore = defineStore('stocks', {
             }
         },
 
-        async loadProductMovements(unique_code: string) {
-            this.$state.loading = true;
-            this.$state.error = null;
+        async loadProductMovements(unique_code: string|null = null) {
+            this.setLoadingState();
             try {
                 const response = await fetchStockMovement(unique_code);
                 this.$state.stock_movements = response.data.data ?? [];
@@ -107,5 +99,9 @@ export const useStocksStore = defineStore('stocks', {
                 this.$state.loading = false;
             }
         },
+        setLoadingState() {
+            this.loading = true;
+            this.error = null;
+        }
     },
 });

@@ -5,6 +5,7 @@ defineProps<{
     type?: string
     error?: string
     required?: boolean
+    disabled?: boolean
 }>()
 
 defineEmits<{
@@ -20,18 +21,18 @@ defineEmits<{
         </label>
         <input
             v-if="type !== 'textarea'"
-            :class="{ 'border-red-500': error }"
             :type="type || 'text'"
             :value="modelValue"
-            class="input w-full"
+            :disabled="disabled"
+            :class="['input w-full', disabled ? 'bg-gray-100' : '', error ? 'border-red-500' : '']"
             @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         />
         <textarea
             v-else
             rows="2"
-            :class="{ 'border-red-500': error }"
             :value="modelValue"
-            class="input w-full"
+            :disabled="disabled"
+            :class="['input w-full', disabled ? 'bg-gray-100' : '', error ? 'border-red-500' : '']"
             @input="$emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
         />
         <p v-if="error" class="mt-1 text-sm text-red-500">{{ error }}</p>

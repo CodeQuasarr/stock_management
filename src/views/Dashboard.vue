@@ -7,13 +7,25 @@ import {useStatistics} from "../composables/useStatistics.ts";
 import {Line as LineChart} from 'vue-chartjs'
 import {defaultChartOptions} from "../utils/chartConfig.ts";
 import {compareDates, expiredDate} from "../utils/DateManagement.ts";
+import {ExclamationTriangleIcon} from '@heroicons/vue/24/outline'
+import { useHead } from '@vueuse/head'
 
+useHead({
+    title: `Tableau de bord | PharmaFlow`,
+    meta: [
+        {
+            name: 'description',
+            content: 'Gérez les stocks de manière efficace et organisée'
+        },
+        { name: 'robots', content: 'noindex, nofollow' }
+    ]
+})
 
 const {
     statistics,
     stockSelection,
     stockEvolution,
-    stocksMovement,
+    stockMovements,
     otherStatistics,
 } = useStatistics()
 
@@ -56,11 +68,11 @@ const productSelected = ref('all')
             </div>
 
             <KPICards
-                v-if="statistics"
+                v-if="stockMovements.length && statistics"
                 :data="statistics"
             />
             <!-- Charts Grid -->
-            <div class="grid grid-cols-1 gap-6">
+            <div v-if="stockMovements.length" class="grid grid-cols-1 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                     <h2 class="text-lg font-semibold mb-4">Évolution des stocks</h2>
                     <div class="h-[300px]">
@@ -96,7 +108,7 @@ const productSelected = ref('all')
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                            <tr v-for="(stock_movement, index) in stocksMovement" :key="'stock_movement_' + stock_movement.product.unique_code + '_index_' + index">
+                            <tr v-for="(stock_movement, index) in stockMovements" :key="'stock_movement_' + stock_movement.product.unique_code + '_index_' + index">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ stock_movement.product.name }}
                                 </td>
@@ -116,6 +128,11 @@ const productSelected = ref('all')
                         </table>
                     </div>
                 </div>
+            </div>
+            <div v-else class="flex flex-col items-center justify-center text-gray-600 text-lg">
+                <component :is="ExclamationTriangleIcon" class="h-20 w-20 text-orange-500" />
+                <p> Aucun données disponibles pour le moment. </p>
+                <p> veuillez ajouter des stocks pour voir les statistiques en cliquant sur le bouton ci-dessus. </p>
             </div>
         </div>
     </AuthTemplate>

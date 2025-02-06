@@ -1,13 +1,25 @@
 <script lang="ts" setup>
 
-import {ref, onMounted} from 'vue'
+import {onMounted} from 'vue'
 import AuthTemplate from "../../layouts/AuthTemplate.vue";
 import {useStocks} from "../../composables/useStocks.ts";
+import {TrashIcon, PencilIcon, ExclamationTriangleIcon} from '@heroicons/vue/24/outline'
 import {initFlowbite} from "flowbite";
 import { FwbButton, FwbModal } from 'flowbite-vue'
+import { useHead } from '@vueuse/head'
+
+useHead({
+    title: `Produits | Gestion des stocks | PharmaFlow`,
+    meta: [
+        {
+            name: 'description',
+            content: 'Gérez les stocks des produits pharmaceutiques en ligne'
+        },
+        { name: 'robots', content: 'noindex, nofollow' }
+    ]
+})
 
 const {products, isShowModal, deleteProduct, closeModal, showModal} = useStocks()
-const searchQuery = ref('')
 
 onMounted(() => {
     initFlowbite()
@@ -35,16 +47,16 @@ onMounted(() => {
 
 
             <div class="card">
-                <div class="mb-4">
-                    <input
-                        v-model="searchQuery"
-                        class="input"
-                        placeholder="Search products..."
-                        type="text"
-                    />
-                </div>
+<!--                <div class="mb-4">-->
+<!--                    <input-->
+<!--                        v-model="searchQuery"-->
+<!--                        class="input"-->
+<!--                        placeholder="Search products..."-->
+<!--                        type="text"-->
+<!--                    />-->
+<!--                </div>-->
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <div v-if="products.length" class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                     <h2 class="text-lg font-semibold mb-4">Liste des produits</h2>
                     <div class="">
                         <div class="overflow-x-auto">
@@ -79,15 +91,17 @@ onMounted(() => {
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">{{ product.unique_code }}</td>
-                                    <td class="px-6 py-4">{{ product.stock_quantity }}</td>
+                                    <td :class="['px-6 py-4 font-bold', product.stock_quantity < 10 ? 'text-red-500' : 'text-green-500']"  >{{ product.stock_quantity }}</td>
                                     <td class="px-6 py-4">{{ product.sale_price }}€</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <RouterLink class="text-indigo-500 hover:text-indigo-500/80" :to="'products/'+product.id">Editer</RouterLink>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center">
+                                        <RouterLink class="px-4 rounded-lg py-2 bg-indigo-50 text-indigo-500 hover:bg-indigo-100" :to="'products/'+product.id">
+                                            <component :is="PencilIcon" class="h-5 w-5" />
+                                        </RouterLink>
                                         <fwb-button
-                                            :class="'ml-3 font-normal text-red-500 bg-white hover:bg-white hover:text-red-500/80'"
+                                            class="ml-3 font-normal text-red-500 bg-red-50 hover:bg-red-100"
                                             @click="showModal(product.id)"
                                         >
-                                            Supprimer
+                                            <component :is="TrashIcon" class="h-5 w-5" />
                                         </fwb-button>
                                     </td>
                                 </tr>
@@ -96,10 +110,15 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
+                <div v-else class="flex flex-col items-center justify-center text-gray-600 text-lg">
+                    <component :is="ExclamationTriangleIcon" class="h-20 w-20 text-orange-500" />
+                    <p> Aucun données disponibles pour le moment. </p>
+                    <p> veuillez ajouter des stocks pour voir les statistiques en cliquant sur le bouton ci-dessus. </p>
+                </div>
 
                 <fwb-modal size="md" v-if="isShowModal" @close="closeModal">
                     <template #body>
-                        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                        <p class="text-base leading-relaxed text-red-500 font-bold">
                             Êtes-vous sûr de vouloir supprimer cet élément ?
                         </p>
                     </template>
@@ -108,7 +127,7 @@ onMounted(() => {
                             <fwb-button @click="closeModal" color="alternative">
                                 Non
                             </fwb-button>
-                            <fwb-button @click="deleteProduct" color="blue">
+                            <fwb-button @click="deleteProduct" color="red">
                                 Oui
                             </fwb-button>
                         </div>
