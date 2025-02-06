@@ -7,6 +7,7 @@ import {
     fetchStockMovement, updateProduct
 } from "../Services/stocks/StockService.ts";
 import type {Product, ProductUpdated, StockMovement, StockState} from "../types";
+import {formatErrors} from "../utils/FormatError.ts";
 
 export const useStocksStore = defineStore('stocks', {
     state: (): StockState => ({
@@ -69,7 +70,7 @@ export const useStocksStore = defineStore('stocks', {
                 if (error.response.data.errors) {
                     this.$state.error = formatErrors(error.response.data.errors);
                 } else {
-                    this.$state.error = error.response.data.message;
+                    this.error = error.response?.data?.message ?? 'Failed to add product.';
                 }
             } finally {
                 this.$state.loading = false;
@@ -82,7 +83,7 @@ export const useStocksStore = defineStore('stocks', {
                 await deleteProduct(product_id);
                 await this.loadProducts();
             } catch (error: any) {
-                this.$state.error = error.response.data.message;
+                this.error = error.response?.data?.message ?? 'Failed to delete product.';
             } finally {
                 this.$state.loading = false;
             }
@@ -94,7 +95,7 @@ export const useStocksStore = defineStore('stocks', {
                 const response = await fetchStockMovement(unique_code);
                 this.$state.stock_movements = response.data.data ?? [];
             } catch (error: any) {
-                this.$state.error = error.response.data?.message ?? error.message;
+                this.error = error.response?.data?.message ?? 'Failed to load stock movements.';
             } finally {
                 this.$state.loading = false;
             }
