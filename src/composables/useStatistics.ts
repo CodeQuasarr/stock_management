@@ -10,7 +10,7 @@ export function useStatistics() {
 
     const statistics = ref<Kpi | null>(null);
     const stockSelection = ref<ListProductSelection[]>([]);
-    const stocksMovement = ref<StockMovement[]>([]);
+    const stockMovements = ref<StockMovement[]>([]);
     const stockEvolution = ref<any>([]);
     const loading = ref<boolean>(false);
     const error = ref<any>(null);
@@ -47,15 +47,17 @@ export function useStatistics() {
      * @param unique_code
      */
     const getStockMovement = async (unique_code: string|null = null) => {
+        console.log(unique_code);
         await stockStore.loadProductMovements(unique_code ?? stockSelection.value[0].value);
-        stocksMovement.value = stockStore.stock_movements;
+        console.log(stockStore.stock_movements);
+        stockMovements.value = stockStore.stock_movements;
     }
 
     onMounted(async () => {
         loading.value = true;
         try {
             await getStatistics();
-            await getStockMovement();
+            await getStockMovement(stockSelection.value[0].value);
         } catch (err: any) {
             error.value = err.message;
         } finally {
@@ -67,7 +69,7 @@ export function useStatistics() {
         statistics,
         stockSelection,
         stockEvolution,
-        stocksMovement,
+        stockMovements,
         loading,
         error,
         otherStatistics,

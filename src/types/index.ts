@@ -11,6 +11,13 @@ export interface Product {
     expiration_date?: string
 }
 
+export interface ProductUpdated {
+    movement_type?: string
+    movement_reason?: string
+    movement_quantity?: number
+    expiration_date?: string
+}
+
 export interface Kpi {
     stock_value: number
     change_stock_value: number
@@ -42,4 +49,15 @@ export interface StockMovement {
     reason: string
     expiration_date: string
     quantity: number
+}
+
+
+export interface StockState {
+    stock_movements: StockMovement[];
+    products: Product[];
+    product: Product;
+    product_id: number;
+    loading: boolean;
+    error: string | null;
+    success: string | null;
 }

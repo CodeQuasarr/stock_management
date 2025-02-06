@@ -5,6 +5,7 @@ defineProps<{
     options: { value: string; label: string }[]
     error?: string
     required?: boolean
+    disabled?: boolean
 }>()
 
 defineEmits<{
@@ -19,12 +20,12 @@ defineEmits<{
             <span v-if="required" class="text-red-500">*</span>
         </label>
         <select
-            :class="{ 'border-red-500': error }"
             :value="modelValue"
-            class="input w-full"
+            :disabled="disabled"
+            :class="['input w-full', disabled ? 'bg-gray-100' : '', error ? 'border-red-500' : '']"
             @input="$emit('update:modelValue', ($event.target as HTMLSelectElement).value)"
         >
-            <option value="">Select an option</option>
+<!--            <option value="">Sélectionné</option>-->
             <option v-for="option in options" :key="option.value" :value="option.value">
                 {{ option.label }}
             </option>
