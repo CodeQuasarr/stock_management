@@ -8,7 +8,18 @@ import {Line as LineChart} from 'vue-chartjs'
 import {defaultChartOptions} from "../utils/chartConfig.ts";
 import {compareDates, expiredDate} from "../utils/DateManagement.ts";
 import {ExclamationTriangleIcon} from '@heroicons/vue/24/outline'
+import { useHead } from '@vueuse/head'
 
+useHead({
+    title: `Tableau de bord | PharmaFlow`,
+    meta: [
+        {
+            name: 'description',
+            content: 'Gérez les stocks de manière efficace et organisée'
+        },
+        { name: 'robots', content: 'noindex, nofollow' }
+    ]
+})
 
 const {
     statistics,

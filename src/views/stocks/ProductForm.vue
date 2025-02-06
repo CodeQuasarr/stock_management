@@ -6,7 +6,19 @@ import BaseSelect from "../../components/common/BaseSelect.vue";
 import {useRoute, useRouter} from "vue-router";
 import {useProductForm} from "../../composables/useProductForm.ts";
 import {FwbToast} from 'flowbite-vue'
+import {useHead} from "@vueuse/head";
 export type ToastType = 'success' | 'warning' | 'danger' | 'empty'
+
+useHead({
+    title: `Produits | Gestion des stocks | PharmaFlow`,
+    meta: [
+        {
+            name: 'description',
+            content: 'Gérez les stocks de manière efficace et organisée'
+        },
+        { name: 'robots', content: 'noindex, nofollow' }
+    ]
+})
 
 // Constants (Extracted repeating data)
 const CATEGORY_OPTIONS = [

@@ -1,14 +1,25 @@
 <script lang="ts" setup>
 
-import {ref, onMounted} from 'vue'
+import {onMounted} from 'vue'
 import AuthTemplate from "../../layouts/AuthTemplate.vue";
 import {useStocks} from "../../composables/useStocks.ts";
 import {TrashIcon, PencilIcon, ExclamationTriangleIcon} from '@heroicons/vue/24/outline'
 import {initFlowbite} from "flowbite";
 import { FwbButton, FwbModal } from 'flowbite-vue'
+import { useHead } from '@vueuse/head'
+
+useHead({
+    title: `Produits | Gestion des stocks | PharmaFlow`,
+    meta: [
+        {
+            name: 'description',
+            content: 'Gérez les stocks des produits pharmaceutiques en ligne'
+        },
+        { name: 'robots', content: 'noindex, nofollow' }
+    ]
+})
 
 const {products, isShowModal, deleteProduct, closeModal, showModal} = useStocks()
-const searchQuery = ref('')
 
 onMounted(() => {
     initFlowbite()

@@ -47,9 +47,7 @@ export function useStatistics() {
      * @param unique_code
      */
     const getStockMovement = async (unique_code: string|null = null) => {
-        console.log(unique_code);
         await stockStore.loadProductMovements(unique_code ?? stockSelection.value[0].value);
-        console.log(stockStore.stock_movements);
         stockMovements.value = stockStore.stock_movements;
     }
 
